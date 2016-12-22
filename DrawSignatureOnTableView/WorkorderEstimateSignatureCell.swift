@@ -1,10 +1,6 @@
 //
 //  WorkorderEstimateSignatureCell.swift
 //  ReachOut
-//
-//  Created by FTS-MAC-014 on 08/12/16.
-//  Copyright © 2016 Aswathy. All rights reserved.
-//
 
 import UIKit
 

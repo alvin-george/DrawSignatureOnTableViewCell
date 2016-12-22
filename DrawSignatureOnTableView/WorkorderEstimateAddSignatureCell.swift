@@ -4,12 +4,16 @@
 
 import UIKit
 
-@objc protocol completedDrawingDelegate{
+@objc protocol completedDrawingDelegate {
     
     @objc optional func completedAddingSignature()
+    @objc optional func signatureViewContainPicture()
+    
 }
 class WorkorderEstimateAddSignatureCell: UITableViewCell, DrawSignatureDelegate {
+    
     var delegate : completedDrawingDelegate?
+    
     @IBOutlet weak var titleView: UIView!
     @IBOutlet weak var titleViewHeight: NSLayoutConstraint!
     @IBOutlet weak var estimateTitleLabel: UILabel!
@@ -25,6 +29,9 @@ class WorkorderEstimateAddSignatureCell: UITableViewCell, DrawSignatureDelegate 
         estimateTitleLabel.sizeToFit()
         estimateSubTitleLabel.sizeToFit()
         titleView.frame.size.height = estimateTitleLabel.frame.size.height+estimateSubTitleLabel.frame.size.height+70
+        addSignatureButton.sizeToFit()
+        
+        addSignatureButton.titleEdgeInsets = UIEdgeInsets(top: 0.0, left: 5.0, bottom: 0.0, right: 0.0)
         
         self.addSignatureView.delegate =  self
     }
@@ -38,6 +45,7 @@ class WorkorderEstimateAddSignatureCell: UITableViewCell, DrawSignatureDelegate 
     
     @IBAction func doneButtonTapped(_ sender: Any) {
         
+        //Picture nil check
         if addSignatureView.doesContainSignature {
             let img = addSignatureView.getCroppedSignature()
             print("contain image")
@@ -46,6 +54,7 @@ class WorkorderEstimateAddSignatureCell: UITableViewCell, DrawSignatureDelegate 
         }
     }
     @IBAction func addSignatureButtonTapped(_ sender: Any) {
+        
         addSignatureView.isHidden =  false
         addSignatureView.backgroundColor = UIColor.white
         addSignatureButton.isHidden =  true
@@ -55,13 +64,21 @@ class WorkorderEstimateAddSignatureCell: UITableViewCell, DrawSignatureDelegate 
         addSignatureView.clear()
     }
     @IBAction func finishEditingButtonTapped(_ sender: Any) {
+        
+        //Sending picture existence
+        if addSignatureView.doesContainSignature {
+            delegate?.signatureViewContainPicture!()
+        } else {
+            print("empty image")
+        }
+        
         addSignatureView.isHidden =  true
         addSignatureButton.isHidden =  false
         addSignatureButton.titleLabel?.text = "Signture Added. Please tap to edit again"
+        
+        //Sending added signature information
         delegate?.completedAddingSignature!()
     }
-    
-    
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)

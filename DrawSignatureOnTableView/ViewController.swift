@@ -17,27 +17,19 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
     var cell:UITableViewCell?
     
     var selectedIndexPath:IndexPath?
-    var signatureButtonTapped:Bool =  false
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
         initialUISetUp()
-        
     }
     override func viewWillAppear(_ animated: Bool) {
         initialUISetUp()
-        
-        
     }
-    
     func initialUISetUp()
     {
         self.automaticallyAdjustsScrollViewInsets = false
         self.navigationController?.isNavigationBarHidden =  true
     }
-    
     
     //MARK:- TableView DataSource and Delegate
     
@@ -60,7 +52,6 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
             self.workOrderEstimateTableView.rowHeight = UITableViewAutomaticDimension
         }
         else if (indexPath.section == 3 ){
-            //self.workOrderEstimateTableView.rowHeight =  450
             self.workOrderEstimateTableView.rowHeight =  UITableViewAutomaticDimension
         }
         else{
@@ -68,7 +59,6 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
         }
         return self.workOrderEstimateTableView.rowHeight
     }
-    
     func numberOfSections(in tableView: UITableView) -> Int {
         
         return 4
@@ -80,7 +70,7 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
             self.totalNumberOfRows = 1
         }
         if(section == 1){
-            //Added by SiAz
+            
             self.totalNumberOfRows = 1
         }
         if(section == 2){
@@ -101,9 +91,6 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
             
             var cell :WorkorderEstimateSignatureCell
             cell =  tableView.dequeueReusableCell(withIdentifier: CellIdentifier) as! WorkorderEstimateSignatureCell
-            
-            //Added by SiAz
-            
             
             return cell
         }
@@ -128,14 +115,8 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
             var cell: WorkorderEstimateDetailCell
             cell =  tableView.dequeueReusableCell(withIdentifier: CellIdentifier) as! WorkorderEstimateDetailCell
             
-            
             let _ = cell.estimateDetailDescription.intrinsicContentSize.width
             cell.editEstimateButton?.layer.setValue(indexPath, forKey: "index")
-            
-            
-            //Added by SiAz
-            //   cell.estimateDetailTitleLabel.text = self.estimatesList
-            
             
             return cell
         }
@@ -165,18 +146,16 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
         }
         
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
-    }
+    // UITextField Delegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         
         textField.resignFirstResponder();
         return true
         
     }
+    //Button Actions
     @IBAction func addSignatureButtonTapped(_ sender: UIButton) {
         
-        print("button tapped")
         if (sender.isHidden == true)
         {
             self.workOrderEstimateTableView.isScrollEnabled =  false
@@ -186,9 +165,16 @@ class ViewController: UIViewController, UITableViewDelegate,UITableViewDataSourc
         }
         
     }
+    
+    //completedDrawingDelegate
+    
     func completedAddingSignature() {
         
         self.workOrderEstimateTableView.isScrollEnabled = true
+    }
+    func signatureViewContainPicture() {
+        
+        print("signature view contain picture")
     }
     
     override func didReceiveMemoryWarning() {
